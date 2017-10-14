@@ -45,12 +45,8 @@ def triFusion(L):
 
 
 """ Exo 2 TD 2"""
-"Matrice A utilisée pour les tests de l'élement connexe"
+"Matrice A utilisée pour les tests des fonctions"
 from math import inf # pour l'infini
-A=[13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7]
-
-
-
 
 
 """
@@ -60,7 +56,7 @@ A=[13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7]
 ================================================================================
 """
 """force brute"""
-
+# debut de la fonction sousMax
 def sousMax(L,k):
     """
     Cette fonction trouve le sous tableau connexe de somme maximale
@@ -76,17 +72,36 @@ def sousMax(L,k):
     une liste contenant la somme et une liste contenant
     la liste des éléments sur lesquels nous avons trouvé cette somme
     """
+    """
+    Initialisation
+    """
     n=len(L)
     Max=-inf
     Ind_Max=0
+    """
+    on prendre les sous-tableaux connexes de longueur k dont les débuts
+    varient de 0 à n-k
+    """
     for i in range(n-k+1):
         som_partielle=sum(L[i:i+k])
+        """
+        on calcule la somme partielle de ce sous-tableau, si la somme des
+        élements est meilleure on garde son indice.
+        """
         if(Max<som_partielle):
             Max=som_partielle
             Ind_Max=i
-    return [Max,L[Ind_Max:Ind_Max+k]]
+    """
+    On retourne une liste contenant la somme maximale et une liste contenant
+    les éléments sur laquelle nous avons fait cette somme.
 
-def sousTabConnexe(L):
+    """
+    return [Max,L[Ind_Max:Ind_Max+k]]
+# fin de la fonction sousMax
+
+
+# debut de la fonction ssTabConnexMaxBF
+def ssTabConnexMaxBF(L):
     """
     Cette fonction permet pour une liste L donnée de réels de trouver
     le sous-tableau connexe de taille maximale.
@@ -111,12 +126,12 @@ def sousTabConnexe(L):
     """
     for k in range(1,n+1):
         """
-         s_k est liste dont le premier element est la somme et le deuxième
+         s_k est une liste dont le premier element est la somme et le deuxième
          élément est la sous-liste correspondante.
         """
         s_k=sousMax(L,k)
         """
-        en enregistre s_k sous forme de cle:valeur avec cle la somme et valeur
+        on enregistre s_k sous forme de cle:valeur avec cle la somme et valeur
         la liste.
         """
         dic_list[s_k[0]]=s_k[1]
@@ -136,6 +151,8 @@ def sousTabConnexe(L):
     On retourne cette sous-liste: c'est la sous-liste connexe de somme maximale
     """
     return L_connexMaxi
+# fin de la fonction ssTabConnexMaxBF
+
 
 """
 ================================================================================
@@ -222,7 +239,8 @@ def ssTabMax(A,bas,haut):
 
     mil=(haut+bas)//2
     """
-    Pour debuguer le code au besoin, il suffit que la valeur de debug soit True"""
+    Pour debuguer le code au besoin, il suffit que la valeur de debug soit True
+    """
     if debug:
         print(bas, mil, haut)
     """
@@ -255,10 +273,97 @@ def ssTabMax(A,bas,haut):
 # debut de la fonction ssTabConnexMax
 def ssTabConnexMax(A):
     """
-    fonction qui utilise la fonction recursive ssTabMax sans prendre les
+    une fonction qui utilise la fonction recursive ssTabMax sans prendre les
     paramètres utiles pour la recursion.
     """
     return ssTabMax(A,0,len(A))
 
 # fin de la fonction ssTabConnexMax
 
+
+"""
+================================================================================
+================================================================================
+================================================================================
+================================================================================
+"""
+
+# debut de la fonction ssTabLinear
+def ssTabLinear(A):
+    """
+    cette fonction prend une liste A et retourne le sous-tableau de somme maxi-
+    male.
+    =================================ENTREE=====================================
+    A: liste contenant tous les élements sur lesquels nous voulons trouver le
+       sous-tableau connexe de somme maximale
+    =================================SORTIE=====================================
+    deb: le debut du sous-tableau connexe de somme maximale
+    fin: la fin du sous-tableau connexe de somme maximale
+    somMax: somme du sous-tableau de somme maximale
+    """
+    n=len(A)
+
+    """
+    Initialisations
+    """
+    somMax=A[0]
+    som=0
+    deb=0
+    fin=0
+
+
+    """
+    On procède comme dans ssTabMil en faisant varier le milieu( mais le milieu
+    est le début même du sous-tableau connexe ici) quand nous avons une somme
+    négative et en ne cherchant le sous-tableau maximale dans la partie
+    supérieure et en mettant la somme à 0 au cas où elle est négative car 0 est
+    supérieur aux nombres négatifs et on recommence à chercher le sous-tableau
+    connexe à partir de l'indice suivant.
+    """
+    debSsTab=0
+    for i in range(n):
+        som+=A[i]
+        """
+        Si la somme est meilleure on la garde
+        on garde toujours le même début
+        on avance le début
+        """
+        if(som>somMax):
+                somMax=som
+                deb=debSsTab
+                fin=i
+        """
+        si la somme est négative alors, la somme n'est pas meilleure en ôtant ce
+        sous-tableau
+        On commence à chercher un sous-tableau de somme maximale commençant par
+        l'indice suivant.
+        """
+        if(som<0):
+            som=0
+            debSsTab=i+1
+
+    return deb,fin,somMax
+
+# fin de la fonction ssTabLinear
+
+
+"""
+La commande qui suit permet d'isoler du code qui ne sera actif que si on compile
+ ce fichier en tant que "main", mais pas si on l'importe.
+Cela permet d'avoir une vue de son utilisation sans gêner l'execution d'un code
+qui aurait besoin d'importer ce fichier pour trier une liste par exemple.
+"""
+if __name__=="__main__":
+    A=[13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7]
+
+    # test de force brute: o(n²)
+    ssTab=ssTabConnexMaxBF(A)
+    print("Force brute: ",ssTab,"de somme :",sum(ssTab))
+
+    # test de diviser pour reigner: o(n*log(n))
+    res=ssTabConnexMax(A)
+    print("Diviser pour reigner",A[res[0]:res[1]],"de somme:",res[2])
+
+    # test de l'algo le plus efficace: o(n)
+    res=ssTabLinear(A)
+    print("Algo en temps linéaire",A[res[0]:res[1]],"de somme:",res[2])
