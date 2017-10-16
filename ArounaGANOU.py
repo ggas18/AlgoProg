@@ -9,45 +9,10 @@ Created on Thu Oct  5 14:08:39 2017
 
 """=============================Paramètres du fichier=================="""
 debug=False # pour debuguer le code notamment l'activation des fonctions prints
-""" Tri insertion"""
-def triInsertion(L):
-    #entrée: liste L à trier
-    #sortie: Liste Res triée
-
-    n=len(L)
-
-    for j in range(1,n):
-        cle=L[j]
-        i=j-1
-        while i>=0 and L[i]>cle:
-            L[i+1]=L[i]
-            i=i-1
-        L[i+1]=cle
-    return L
-
-""" Tri fusion"""
-def fusion(G,D):
-    #entrees: deux listes triées à fusionner
-    #sorties: une liste fusionnées des deux listes entrées
-    if(len(G)==0): return D
-    if(len(D)==0): return G
-    else:
-        if(G[0]<D[0]):
-            return [G[0]]+fusion(G[1:],D)
-        else: return [D[0]]+fusion(G,D[1:])
-
-def triFusion(L):
-    # entrée: une liste triée L
-    # sortie: la liste triée ayant les données de l'entrée L
-    if(len(L)==1): return L
-    else: return fusion(triFusion(L[:len(L)//2]),triFusion(L[len(L)//2:]))
-
-
 
 """ Exo 2 TD 2"""
 "Matrice A utilisée pour les tests des fonctions"
 from math import inf # pour l'infini
-
 
 """
 ================================================================================
@@ -64,13 +29,13 @@ def sousMax(L,k):
 
     =====================Entrée================================
     L: une liste contenant le tableau dans lequel on veut extraire
-    un élement connexe
+    un sous-tableau connexe
 
     k: la taille des élements à prendre
 
     =====================Sortie==============================
     une liste contenant la somme et une liste contenant
-    la liste des éléments sur lesquels nous avons trouvé cette somme
+    la liste des elements sur lesquels cette somme s'evalue
     """
     """
     Initialisation
@@ -103,7 +68,7 @@ def sousMax(L,k):
 # debut de la fonction ssTabConnexMaxBF
 def ssTabConnexMaxBF(L):
     """
-    Cette fonction permet pour une liste L donnée de réels de trouver
+    Cette fonction permet pour une liste L donnee de réels de trouver
     le sous-tableau connexe de taille maximale.
     ======================ENTREE=======================
     L: une liste
@@ -182,7 +147,7 @@ def ssTabMil(A,deb,mil,fin):
 
     """
     c'est la somme maximale par defaut pour la somme maximale pour le sous tableau
-    bas, on l'ininitialise à -∞
+    bas, on l'ininitialise a -∞
     """
     s_bas=-inf
     """
@@ -244,7 +209,7 @@ def ssTabMax(A,bas,haut):
     if debug:
         print(bas, mil, haut)
     """
-    Condition d'arrêt de la recursion: On arrête quand le bas est exactement le
+    Condition d'arret de la recursion: On arrête quand le bas est exactement le
     milieu ou le haut vaut exactement le milieu.
     """
     if (bas==mil or haut==mil):
@@ -314,9 +279,9 @@ def ssTabLinear(A):
 
     """
     On procède comme dans ssTabMil en faisant varier le milieu( mais le milieu
-    est le début même du sous-tableau connexe ici) quand nous avons une somme
+    est le début meme du sous-tableau connexe ici) quand nous avons une somme
     négative et en ne cherchant le sous-tableau maximale dans la partie
-    supérieure et en mettant la somme à 0 au cas où elle est négative car 0 est
+    supérieure et en mettant la somme à 0 au cas ou elle est negative car 0 est
     supérieur aux nombres négatifs et on recommence à chercher le sous-tableau
     connexe à partir de l'indice suivant.
     """
@@ -333,7 +298,7 @@ def ssTabLinear(A):
                 deb=debSsTab
                 fin=i
         """
-        si la somme est négative alors, la somme n'est pas meilleure en ôtant ce
+        si la somme est négative alors, la somme est meilleure en ôtant ce
         sous-tableau
         On commence à chercher un sous-tableau de somme maximale commençant par
         l'indice suivant.
