@@ -52,7 +52,7 @@ def creerTableau(ligne,colonne, sym=inf):
 
     return Li
 #fin de la fonction creertableau
-"""================================cours===================================="""
+"""=================================cours===================================="""
 
 #debut de la fonction nbPieceMin
 def nbPieceMin(S,a,debug=False):
@@ -68,8 +68,9 @@ def nbPieceMin(S,a,debug=False):
     #        pièces.
     a=[0]+a
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
 
     n=len(a)# n est la taille du vecteur contenant la liste des pièces
@@ -79,8 +80,6 @@ def nbPieceMin(S,a,debug=False):
 
     # on remet la première colonne et la première ligne etant par défaut
     # à infini à cause de l'utilisation de la fonction creerTab
-    """for t in range(S+1):
-        Z[0][t]=inf"""
 
     for i in range(n):
         Z[i][0]=0
@@ -140,8 +139,9 @@ def nbPieceMin(S,a,debug=False):
                # la procedure avec la somme actuelle à l'indice i-1
                i=i-1
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
     return Z[n-1][S],s
 #fin de la fonction nbPieceMin
@@ -168,8 +168,9 @@ def sacDos(p,v,Pmax,debug=False):
     #         v_ut les valeurs utilisées
     #         p_ut les poids utilisés
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
     # on ajoute les poids nuls et valeurs nulles aux listes
     # correspondantes
@@ -248,8 +249,9 @@ def sacDos(p,v,Pmax,debug=False):
                # à la ligne précedente.
                i=i-1
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
     # on retourne le tuple constitué constitué du dernier element du tableau, du
     # la liste des valeurs utilisées et de la liste des poids utilisées.
@@ -273,8 +275,9 @@ def PLSC(X,Y,debug=False):
     #         sd   une chaine de caractère qui est une sous-sequence commune
     #         de X et Y
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
 
     # on prend les tailles de X et Y
@@ -354,8 +357,9 @@ def PLSC(X,Y,debug=False):
                 j=j-1
 
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
 
     # on retourne donc la taille de la sous-sequence max et une sous-sequence
@@ -381,8 +385,9 @@ def distEd(Source,Target,debug=False):
     #         nb_mod : le nombre minimal de modifications
 
     if(debug):
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print()
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
         print()
     # on ajoute le caractère vide au debut de chaque chaine
     Source=" "+Source
@@ -450,7 +455,7 @@ def distEd(Source,Target,debug=False):
           # un caractere a une position precise car les chaines sont
           # immuables donc on ne peut pas les modifier directement.
           l_t=list(t)
-          l_t=list(t[:j])+[s[i]]+list(t[j:])
+          l_t=list(t[:j])+[s[i].upper()]+list(t[j:])
           t=''.join(l_t)
           print("insertion",s,"------->",t)
 
@@ -473,7 +478,7 @@ def distEd(Source,Target,debug=False):
              # un caractere a une position precise car les chaines sont
              # immuables donc on ne peut pas les modifier directement.
              l_t=list(t)
-             l_t[j:j+1]=s[i:i+1]
+             l_t[j:j+1]=s[i:i+1].upper()
              t=''.join(l_t)
              print("substitution",s,"------->",t)
 
@@ -491,8 +496,9 @@ def distEd(Source,Target,debug=False):
 
     if(debug):
         print()
-        print("changer le paramètre debug en False si vous ne voulez\n",
-              "pas voir tous les affichages")
+        print("changer le paramètre debug en False si vous ne voulez",
+              "\npas voir tous les affichages")
+        print()
 
     return nb_mod
 # fin de la fonction distEd
@@ -519,6 +525,7 @@ if __name__=="__main__":
         else:
             print("nombre de pièces",nb[0],"avec les pièces",nb[1])
 
+
     elif(opt=="exo1"):
         print()
         print("test de l'exercice 1")
@@ -529,13 +536,17 @@ if __name__=="__main__":
         print("Valeur optimale:",solution[0],
               "avec les valeurs",solution[1],
               "de poids",solution[2])
+
+
     elif(opt=="exo2"):
         print()
         print("test de l'exercice 2")
         X="abcbdab"
         Y="bdcaba"
         solution=PLSC(X,Y,debug=True)
-        print(solution)
+        print("Taille de la plus longue sous sequence:",solution[0],
+              "\nUn exemple de sous sequences max commune:",solution[1].upper())
+
 
     elif(opt=="exo3"):
         print()
@@ -555,3 +566,7 @@ if __name__=="__main__":
         print("        ou")
         print("        python3 ", sys.argv[0],
               "[options= cours, exo1, exo2 ou exo3](TERMINAL UNIX)")
+
+    # on saute des lignes pour differencier les sorties
+    print()
+    print()
