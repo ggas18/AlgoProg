@@ -131,9 +131,11 @@ def yaCycle(listDisjSet,arete):
     # on recherche les representants
      s1=find(listDisjSet,arete.som1)
      s2=find(listDisjSet,arete.som2)
-    # on teste s'ils sont les mêmes representants.
+    # on teste s'ils sont les mêmes representants, alors l'ajout des deux sommets
+    # formes un cycle
      if(s1==s2):
          return True
+     # sinon on ajoute les deux sommets dans la structure union-find
      else:
          union(listDisjSet,arete.som1,arete.som2)
          return False
@@ -141,17 +143,23 @@ def yaCycle(listDisjSet,arete):
 
 # debut de fonction ACM
 def ACM(A):
+    # fonction trouve les arrêtes qui forments l'arbre couvrant de poids minimal
+
+    # ENTREE: A la matrice d'adjacence
+    # SORTIE: la liste des arrêtes qui forment l'arbre couvrant de poids maximal
     n=len(A)
     LiArre=[]
     listDisjSet=[]
+    # on cree les arrêtes et on les mets dans une liste.
     for i in range(n):
         listDisjSet.append(DisjointSet(i,0))
         for j in range(n):
                LiArre.append(arrete(i,j,A[i][j]))
-
+    # on trie les arrêtes dans l'ordre croissant de leur poids
     LiArre.sort()
     arbCouvrant=[]
     nb_ar=len(LiArre)
+    # on gloutonne sur les arrêtes en evitant les cycles.
     for i in range(nb_ar):
         if(not yaCycle(listDisjSet,LiArre[i])):
             arbCouvrant.append(LiArre[i])
@@ -160,26 +168,6 @@ def ACM(A):
 # fin de fonction ACM
 
 # fin exo2
-
-# debut de l'exo3
-class tache(object):
-    def __init__(self,num,deadline,pena):
-        self.n=num
-        self.d=deadline
-        self.w=pena
-
-    def __str_(self):
-        return "tache:num {}, deadline{} pena {}".format()
-
-    def __lt__(self,other):
-        return self.w<other.w
-
-def OT(listTache):
-    n=len(listTache)
-    print(n,"à faire")
-# fin de l'exo3
-
-# debut exo4
 
 #debut de la fonction creerTableau
 def creerTableau(ligne,colonne, sym=inf):
@@ -276,11 +264,12 @@ def arbreGraphique(N):
     tailleACM=len(arbreCouvrantMin)
     # on parcours la liste des arrêtes et les affiches, en utilisant l'equivalence
     # entre indice et point dans liste des points.
-    for i in  range(tailleACM):
-        listSommet[arbreCouvrantMin[i].som1].afficheSeg(listSommet[arbreCouvrantMin[i].som2])
     titre="arbre couvrant pour "+str(N)+" points"
     plt.title(titre)
-    plt.show()
+    for i in  range(tailleACM):
+        listSommet[arbreCouvrantMin[i].som1].afficheSeg(listSommet[arbreCouvrantMin[i].som2])
+    
+    plt.show()    
 # fin de la fonction arbreGraphique
 # fin exo4
 
@@ -336,11 +325,9 @@ def dijkstra(A,source):
             # de distance minimale est plus petite
             if(not listVisit[k] and listDist[index]+A[index][k]<=listDist[k]):
                 listDist[k]=listDist[index]+A[index][k]
-
     return listDist
 
 # fin fonction dijksta
-
 # fin exo dijkstra
 
 if __name__=="__main__":
@@ -377,8 +364,9 @@ if __name__=="__main__":
 
     elif(opt=="exo4"):
          print("Affichage graphique de l'arbre couvrant de point minimal")
-         N=10# le nombre de points
+         N=777# le nombre de points
          arbreGraphique(N)
+
     elif(opt=="dijkstra"):
         # on met la distance entre deux sommet à l'infini quand il n'y a pas de
         # d'arrête entre les deux.
