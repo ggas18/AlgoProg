@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Dec 19 11:27:24 2017
-
 @author: arek
 """
-#les outils natifs de python à importer.
+#les outils natifs de python Ã  importer.
 import sys # pour la reception des arguments en ligne de commandes.
 
 # fin imports
@@ -13,7 +12,7 @@ import sys # pour la reception des arguments en ligne de commandes.
 
 # debut frequence
 def frequence(text):
-    # cette fonction extraire à l'alphabet et à le ponderer dans un texte avec
+    # cette fonction extraire Ã  l'alphabet et Ã  le ponderer dans un texte avec
     # les frequences d'apparitions
     # ENTREE text: une chaine de caracteres
 
@@ -97,26 +96,52 @@ def codage(arbreHuffman,c,codeDict):
 
 # fin codage
 # debut compression
-def compression(text):
-    freq=frequence(text)
-    arbreHuffman=arbre(freq)
+def compression(arbre,text):
     T=len(text)
     textCompr=""
     codeDict={}
-    c=""
-    codage(arbreHuffman,c,codeDict)
+    codage(arbreHuffman,"",codeDict)
     for t in range(T):
         ch=codeDict.get(text[t])
         textCompr=textCompr+ch
     return textCompr
 # fin compression
+    
+# debut decompression
+def decodage(arbre,textCompr,textDecompr,i=0) :
+    if(arbre.filsD==None and arbre.filsG==None):
+        return arbre.cle
+    if(textCompr[i]=="0"):
+        return decodage(arbre.filsG,textCompr[i+1:],i+1)
+    else:
+        return decodage(arbre.filsD,textCompr[i+1:],i+1)       
+# fin decodage
+
+# debut decompression
+def decompression(arbre, textCompr):
+    i=0
+    t_comp=len(textCompr)
+    codeDict={}
+    codage(arbreHuffman,"",codeDict)
+    print(t_comp)
+    textDecompr=""
+    while(i<t_comp):
+        print(i)
+        ch=decodage(arbre,textCompr,textDecompr,i)
+        textDecompr=textDecompr+ch
+        i=i+len(codeDict[ch])
+    return textDecompr
+# fin decompression
 if __name__=="__main__":
     opt=""
     if len(sys.argv)==2:
         script,opt=sys.argv
     if(opt=="Huffman" or opt=="huffman"):
              text="abrakadabra"
-             print(compression(text))
+             freq=frequence(text)
+             arbreHuffman=arbre(freq)
+             textCompr=compression(arbreHuffman,"kdb")
+             print(decompression(arbreHuffman,textCompr))
 
     else:
         print("Choisissez une option avec la commande:")
@@ -131,3 +156,5 @@ if __name__=="__main__":
     # on saute des lignes pour differencier les sorties
     print()
     print()
+    
+    
