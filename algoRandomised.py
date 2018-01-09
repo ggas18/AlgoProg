@@ -86,6 +86,15 @@ def convexHull(listP):
     n=len(listP)
     if( n<3): return listP
     U=[listP[0],listP[1],listP[2]]
+    H=[arrete(U[0],U[1]),arrete(U[1],U[2]),arrete(U[2],U[0])]
+    T={}
+    for i in range(n):
+        T[listP[i]]='O'
+    # liste de boolean pour memoriser l'état des points
+    # si le point a la position i est inclus dans l'enveloppe convexe alors
+    # visit[i]=True
+    visit=[False]*n
+    while(len(U)<n):
 
 # fin convexHull
 if __name__=="__main__":
